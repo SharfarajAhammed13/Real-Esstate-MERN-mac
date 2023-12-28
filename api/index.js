@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import cors from 'cors';
 import userRouter from './routes/user.route.js';
 import authRouter from './routes/auth.route.js';
 import exp from 'constants';
@@ -15,14 +16,16 @@ mongoose.connect(process.env.MONGO).then (()=> {
 
 const app = express();
 
+app.use(cors())
 app.use(express.json());
+
 
 app.listen(3000, () => {
     console.log("Server is Running on 3000!!");
 });
 
-app.use("/api/user",userRouter);
-app.use("/api/auth", authRouter);
+app.use('/api/user',userRouter);
+app.use('/api/auth', authRouter);
 
 
 app.use((err, req, res, next) => {
@@ -33,4 +36,4 @@ app.use((err, req, res, next) => {
         statusCode,
         message,
     });
-})
+});
